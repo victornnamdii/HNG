@@ -23,7 +23,7 @@ describe('Server Tests', () => {
         'https://github.com/victornnamdii/HNG/blob/main/backend/stage-1/src/server.ts'
       );
       expect(res.body.github_repo_url).to.equal(
-        'https://github.com/victornnamdii/HNG'
+        'https://github.com/victornnamdii/HNG/tree/main/backend/stage-1'
       );
       expect(res.body.status_code).to.equal(200);
       expect(res.body.current_day).to.equal(current_day);
@@ -45,7 +45,7 @@ describe('Server Tests', () => {
         'https://github.com/victornnamdii/HNG/blob/main/backend/stage-1/src/server.ts'
       );
       expect(res.body.github_repo_url).to.equal(
-        'https://github.com/victornnamdii/HNG'
+        'https://github.com/victornnamdii/HNG/tree/main/backend/stage-1'
       );
       expect(res.body.status_code).to.equal(200);
       expect(res.body.current_day).to.equal(current_day);
@@ -67,7 +67,7 @@ describe('Server Tests', () => {
         'https://github.com/victornnamdii/HNG/blob/main/backend/stage-1/src/server.ts'
       );
       expect(res.body.github_repo_url).to.equal(
-        'https://github.com/victornnamdii/HNG'
+        'https://github.com/victornnamdii/HNG/tree/main/backend/stage-1'
       );
       expect(res.body.status_code).to.equal(200);
       expect(res.body.current_day).to.equal(current_day);
@@ -86,7 +86,7 @@ describe('Server Tests', () => {
         'https://github.com/victornnamdii/HNG/blob/main/backend/stage-1/src/server.ts'
       );
       expect(res.body.github_repo_url).to.equal(
-        'https://github.com/victornnamdii/HNG'
+        'https://github.com/victornnamdii/HNG/tree/main/backend/stage-1'
       );
       expect(res.body.status_code).to.equal(200);
       expect(res.body.current_day).to.equal(current_day);

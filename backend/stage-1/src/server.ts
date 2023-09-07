@@ -29,7 +29,7 @@ app.get('/api', (req: Request, res: Response, next: NextFunction) => {
       utc_time: `${new Date(date.toUTCString()).toISOString().slice(0, 19)}Z`,
       track: track ?? 'Missing query parameter \'track\'',
       github_file_url: 'https://github.com/victornnamdii/HNG/blob/main/backend/stage-1/src/server.ts',
-      github_repo_url: 'https://github.com/victornnamdii/HNG',
+      github_repo_url: 'https://github.com/victornnamdii/HNG/tree/main/backend/stage-1',
       status_code: 200
     });
   } catch (error) {
