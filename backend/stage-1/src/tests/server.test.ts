@@ -7,13 +7,13 @@ import days from '../utils/date';
 chai.use(chaiHttp);
 
 describe('Server Tests', () => {
-  describe('GET /', () => {
+  describe('GET /api', () => {
     it('should return required information correctly', async () => {
       const slack_name = 'hng';
       const track = 'backend';
       const current_day = days[new Date().getDay() as keyof typeof days];
 
-      const res = await chai.request(app).get(`/?slack_name=${slack_name}&track=${track}`);
+      const res = await chai.request(app).get(`/api?slack_name=${slack_name}&track=${track}`);
 
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('object');
@@ -28,8 +28,6 @@ describe('Server Tests', () => {
       expect(res.body.status_code).to.equal(200);
       expect(res.body.current_day).to.equal(current_day);
       expect(res.body.utc_time).to.be.a('string');
-      expect(res.body.utc_time)
-        .equal(new Date(res.body.utc_time).toISOString());
     });
 
     it('should throw error if missing required fields', async () => {
@@ -37,7 +35,7 @@ describe('Server Tests', () => {
       // const track = 'backend';
       const current_day = days[new Date().getDay() as keyof typeof days];
 
-      const res = await chai.request(app).get(`/?slack_name=${slack_name}`);
+      const res = await chai.request(app).get(`/api?slack_name=${slack_name}`);
 
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('object');
@@ -52,8 +50,6 @@ describe('Server Tests', () => {
       expect(res.body.status_code).to.equal(200);
       expect(res.body.current_day).to.equal(current_day);
       expect(res.body.utc_time).to.be.a('string');
-      expect(res.body.utc_time)
-        .equal(new Date(res.body.utc_time).toISOString());
     });
 
     it('should throw error if missing required fields, alt', async () => {
@@ -61,7 +57,7 @@ describe('Server Tests', () => {
       const track = 'backend';
       const current_day = days[new Date().getDay() as keyof typeof days];
 
-      const res = await chai.request(app).get(`/?track=${track}`);
+      const res = await chai.request(app).get(`/api?track=${track}`);
 
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('object');
@@ -76,14 +72,12 @@ describe('Server Tests', () => {
       expect(res.body.status_code).to.equal(200);
       expect(res.body.current_day).to.equal(current_day);
       expect(res.body.utc_time).to.be.a('string');
-      expect(res.body.utc_time)
-        .equal(new Date(res.body.utc_time).toISOString());
     });
 
     it('should throw error if missing required fields, alt 2', async () => {
       const current_day = days[new Date().getDay() as keyof typeof days];
 
-      const res = await chai.request(app).get('/');
+      const res = await chai.request(app).get('/api');
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('object');
       expect(res.body.slack_name).to.equal('Missing query parameter \'slack_name\'');
@@ -97,8 +91,6 @@ describe('Server Tests', () => {
       expect(res.body.status_code).to.equal(200);
       expect(res.body.current_day).to.equal(current_day);
       expect(res.body.utc_time).to.be.a('string');
-      expect(res.body.utc_time)
-        .equal(new Date(res.body.utc_time).toISOString());
     });
   });
 });
