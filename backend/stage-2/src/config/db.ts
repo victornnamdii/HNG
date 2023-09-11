@@ -1,7 +1,12 @@
 import { Sequelize } from 'sequelize';
 import env from './env';
 
-const sq = new Sequelize(env.DATABASE_URL, { logging: false });
+const sq = new Sequelize(env.DB, env.DB_USERNAME, env.DB_PASSWORD, {
+  host: env.DB_HOST,
+  port: Number(env.DB_PORT),
+  dialect: 'postgres',
+  logging: false
+});
 
 const connectToDB = async () => {
   try {

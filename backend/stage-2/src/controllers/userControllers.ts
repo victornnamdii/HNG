@@ -25,10 +25,10 @@ class UserController {
       } = req.body;
 
       const user = await User.create({
-        email: email.toLowerCase().trim(),
+        email: email?.toLowerCase().trim() ?? null,
         name: name.toLowerCase().trim(),
-        age,
-        occupation
+        age: age ?? null,
+        occupation: occupation ?? null
       });
 
       res.status(201).json({
