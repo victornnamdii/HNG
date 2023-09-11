@@ -2,6 +2,8 @@
 
 This repo contains my solution for stage 2.
 
+This task is hosted on: https://hng-task-2-fh1j.onrender.com
+
 ## Requirements
 
 * A PostgreSQL Database
@@ -31,6 +33,17 @@ This request creates a new `Person` resource.
 
 **URL**: `/api`
 **Request Method**: `POST`
+
+**Sample Request**
+```bash
+curl -X POST -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrender.com/api' \
+--data '{
+    "name": "victornnamdii",
+    "age": "22",
+    "email": "victorilodiuba@gmail.com",
+    "occupation": "Backend Engineer"
+}'
+```
 
 **Request Body**
 
@@ -80,6 +93,11 @@ This request returns a `Person` resource with a name specified in query paramete
 **URL**: `/api?name=example_name`. where `example_name` is the person's name.
 **Request Method**: `GET`
 
+**Sample Request**
+```bash
+curl 'https://hng-task-2-fh1j.onrender.com/api?name=Ilodiuba'
+```
+
 
 **Successful Response (Example)**:
 
@@ -126,6 +144,11 @@ This request returns all `Person` resources in the DB.
 **URL**: `/api/all/persons`
 **Request Method**: `GET`
 
+**Sample Request**
+```bash
+curl 'https://hng-task-2-fh1j.onrender.com/api/all/persons'
+```
+
 
 **Successful Response (Example)**:
 
@@ -167,6 +190,11 @@ This request returns a `Person` resource with a specified ID.
 **URL**: `/api/user_id`. where `user_id` is the person's id.
 **Request Method**: `GET`
 
+**Sample Request**
+```bash
+curl -X POST -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrender.com/api/11c08fc1-2f94-423c-92ca-7b0578b0b74b'
+```
+
 
 **Successful Response (Example)**:
 
@@ -188,15 +216,24 @@ This request returns a `Person` resource with a specified ID.
 
 | Message | Status Code | Description |
 | --- | --- | --- |
+| Invalid User ID. Please enter a valid UUID V4. | 400 | The user_id wasn't a v4 uuid. |
 | No user found with specified ID | 404 | There is no user in the DB with the specified ID. |
 | Internal Server Error | 500 | An internal server error occured |
 
-### Update Person
+### Update Person by ID
 
 This request updates an already existing `Person` resource.
 
 **URL**: `/api/user_id`. where `user_id` is the person's id.
 **Request Method**: `PATCH`
+
+**Sample Request**
+```bash
+curl -X PATCH -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrender.com/api/11c08fc1-2f94-423c-92ca-7b0578b0b74b' \
+--data '{
+    "name": "victornnamdii2"
+}'
+```
 
 **Request Body**
 
@@ -213,7 +250,7 @@ This request updates an already existing `Person` resource.
 {
     "message": "Person successfully updated",
     "updates": {
-        "name": "victornnamdii"
+        "name": "victornnamdii2"
     }
 }
 ```
@@ -222,6 +259,7 @@ This request updates an already existing `Person` resource.
 
 | Message | Status Code | Description |
 | --- | --- | --- |
+| Invalid User ID. Please enter a valid UUID V4. | 400 | The user_id wasn't a v4 uuid. |
 | Name should be a string | 400 | Value of `name` in the request body wasn't a string. |
 | Name already exists | 400 | Name in the request body already belongs a person in the DB. |
 | Name already exists | 400 | Email in the request body already belongs a person in the DB. |
@@ -238,6 +276,14 @@ This request updates an already existing `Person` resource.
 
 **URL**: `/api?name=example_name`. where `example_name` is the person's name.
 **Request Method**: `PATCH`
+
+**Sample Request**
+```bash
+curl -X PATCH -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrender.com/api?name=victornnamdii' \
+--data '{
+    "name": "victornnamdii2"
+}'
+```
 
 **Request Body**
 
@@ -281,6 +327,10 @@ This request deletes a `Person` resource with a specified ID from the DB.
 **URL**: `/api/user_id`. where `user_id` is the person's id.
 **Request Method**: `DELETE`
 
+**Sample Request**
+```bash
+curl -X DELETE -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrender.com/api/11c08fc1-2f94-423c-92ca-7b0578b0b74b'
+```
 
 **Successful Response (Example)**:
 
@@ -294,6 +344,7 @@ This request deletes a `Person` resource with a specified ID from the DB.
 
 | Message | Status Code | Description |
 | --- | --- | --- |
+| Invalid User ID. Please enter a valid UUID V4. | 400 | The user_id wasn't a v4 uuid. |
 | No user found with specified ID | 404 | There is no user in the DB with the specified ID. |
 | Internal Server Error | 500 | An internal server error occured |
 
@@ -304,6 +355,10 @@ This request deletes a `Person` resource with a name specified in query paramete
 **URL**: `/api?name=example_name`. where `example_name` is the person's name.
 **Request Method**: `DELETE`
 
+**Sample Request**
+```bash
+curl -X PATCH -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrender.com/api?name=Ilodiuba'
+```
 
 **Successful Response (Example)**:
 
