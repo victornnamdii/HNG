@@ -31,8 +31,8 @@ Unittests are contained in the `src/tests` directory. To test the server run the
 
 This request creates a new `Person` resource.
 
-**URL**: `/api`
-**Request Method**: `POST`
+- **URL**: `/api`
+- **Request Method**: `POST`
 
 **Sample Request**
 ```bash
@@ -90,8 +90,8 @@ curl -X POST -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrend
 
 This request returns a `Person` resource with a name specified in query parameter `name`.
 
-**URL**: `/api?name=example_name`. where `example_name` is the person's name.
-**Request Method**: `GET`
+- **URL**: `/api?name=example_name`. where `example_name` is the person's name.
+- **Request Method**: `GET`
 
 **Sample Request**
 ```bash
@@ -141,8 +141,8 @@ NB: If the query parameter 'name' is not added to the url, it returns:
 
 This request returns all `Person` resources in the DB.
 
-**URL**: `/api/all/persons`
-**Request Method**: `GET`
+- **URL**: `/api/all/persons`
+- **Request Method**: `GET`
 
 **Sample Request**
 ```bash
@@ -187,8 +187,8 @@ curl 'https://hng-task-2-fh1j.onrender.com/api/all/persons'
 
 This request returns a `Person` resource with a specified ID.
 
-**URL**: `/api/user_id`. where `user_id` is the person's id.
-**Request Method**: `GET`
+- **URL**: `/api/user_id`. where `user_id` is the person's id.
+- **Request Method**: `GET`
 
 **Sample Request**
 ```bash
@@ -224,8 +224,8 @@ curl -X POST -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrend
 
 This request updates an already existing `Person` resource.
 
-**URL**: `/api/user_id`. where `user_id` is the person's id.
-**Request Method**: `PATCH`
+- **URL**: `/api/user_id`. where `user_id` is the person's id.
+- **Request Method**: `PATCH`
 
 **Sample Request**
 ```bash
@@ -274,8 +274,8 @@ curl -X PATCH -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onren
 
 This request updates an already existing `Person` resource.
 
-**URL**: `/api?name=example_name`. where `example_name` is the person's name.
-**Request Method**: `PATCH`
+- **URL**: `/api?name=example_name`. where `example_name` is the person's name.
+- **Request Method**: `PATCH`
 
 **Sample Request**
 ```bash
@@ -324,8 +324,8 @@ curl -X PATCH -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onren
 
 This request deletes a `Person` resource with a specified ID from the DB.
 
-**URL**: `/api/user_id`. where `user_id` is the person's id.
-**Request Method**: `DELETE`
+- **URL**: `/api/user_id`. where `user_id` is the person's id.
+- **Request Method**: `DELETE`
 
 **Sample Request**
 ```bash
@@ -352,8 +352,8 @@ curl -X DELETE -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onre
 
 This request deletes a `Person` resource with a name specified in query parameter `name`
 
-**URL**: `/api?name=example_name`. where `example_name` is the person's name.
-**Request Method**: `DELETE`
+- **URL**: `/api?name=example_name`. where `example_name` is the person's name.
+- **Request Method**: `DELETE`
 
 **Sample Request**
 ```bash
