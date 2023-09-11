@@ -1,13 +1,15 @@
 {
   "name": "task-1",
   "version": "1.0.0",
-  "description": "HNG Backend Task 1",
+  "description": "HNG Backend Task 2",
   "main": "dist/server.js",
   "scripts": {
     "prebuild": "eslint --fix . --ext .ts",
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "concurrently \"tsc --watch\" \"nodemon -q .\"",
+    "start": "node .",
+    "predev": "npm run build",
+    "dev": "concurrently \"tsc --watch\" \"nodemon -q .\"",
     "pretest": "npm run build",
     "test": "mocha --exit dist/tests/**/*.test.js"
   },
