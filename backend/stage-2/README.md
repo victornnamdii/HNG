@@ -25,7 +25,7 @@ Unittests are contained in the `src/tests` directory. To test the server run the
 
 ## UML Diagram
 
-![alt text](https://github.com/victornnamdii/django-ecommerce-app/blob/main/backend/stage-2/images/image.png?raw=true)
+![alt text](https://github.com/victornnamdii/HNG/blob/main/backend/stage-2/images/image.png?raw=true)
 
 - - - -
 
