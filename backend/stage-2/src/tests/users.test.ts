@@ -1,5 +1,5 @@
 import chai, { expect } from 'chai';
-import { describe, it, afterEach } from 'mocha';
+import { describe, it, afterEach, beforeEach } from 'mocha';
 import chaiHttp from 'chai-http';
 import { v4 } from 'uuid';
 import { Op } from 'sequelize';
@@ -27,6 +27,16 @@ const requestBody = {
 };
 
 describe('Server Tests', () => {
+  beforeEach(async () => {
+    await User.destroy({
+      where: {
+        [Op.or]: [
+          { email: testMail },
+          { email: 'test2@gmail.com' }
+        ]
+      }
+    });
+  });
   afterEach(async () => {
     await User.destroy({
       where: {
