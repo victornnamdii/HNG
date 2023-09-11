@@ -192,7 +192,7 @@ This request returns a `Person` resource with a specified ID.
 
 **Sample Request**
 ```bash
-curl -X POST -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrender.com/api/11c08fc1-2f94-423c-92ca-7b0578b0b74b'
+curl 'https://hng-task-2-fh1j.onrender.com/api/11c08fc1-2f94-423c-92ca-7b0578b0b74b'
 ```
 
 
@@ -357,7 +357,7 @@ This request deletes a `Person` resource with a name specified in query paramete
 
 **Sample Request**
 ```bash
-curl -X PATCH -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrender.com/api?name=Ilodiuba'
+curl -X DELETE -H "Content-Type: application/json" 'https://hng-task-2-fh1j.onrender.com/api?name=Ilodiuba'
 ```
 
 **Successful Response (Example)**:
