@@ -60,13 +60,9 @@ class UserController {
         return;
       }
 
-      const users = await User.findAll({
-        where: {
-          id: user_id
-        }
-      });
-      if (users[0]) {
-        res.status(200).json({ Person: users[0] });
+      const user = await User.findByPk(user_id);
+      if (user !== null) {
+        res.status(200).json({ Person: user });
       } else {
         res.status(404).json({ error: 'No user found with specified ID' });
       }
@@ -92,12 +88,8 @@ class UserController {
         return;
       }
 
-      const users = await User.findAll({
-        where: {
-          id: user_id
-        }
-      });
-      if (!users[0]) {
+      const user = await User.findByPk(user_id);
+      if (user === null) {
         res.status(404).json({ error: 'No user found with specified ID' });
         return;
       }
@@ -168,19 +160,15 @@ class UserController {
         return;
       }
 
-      const users = await User.findAll({
-        where: {
-          id: user_id
-        }
-      });
-      if (!users[0]) {
+      const user = await User.findByPk(user_id);
+      if (user === null) {
         res.status(404).json({ error: 'No user found with specified ID' });
         return;
       }
 
       await User.destroy({ where: { id: user_id }});
       res.status(200).json({
-        message: `${`${users[0].firstName} ${users[0].lastName}`} successfully deleted`,
+        message: `${`${user.firstName} ${user.lastName}`} successfully deleted`,
       });
     } catch (error) {
       next(error);

@@ -1,13 +1,6 @@
 import isEmail from 'validator/lib/isEmail';
 import BodyError from '../BodyError';
-
-type User = {
-    email: string
-    firstName: string,
-    lastName: string,
-    age: number,
-    occupation: string | undefined
-};
+import User from '../../models/User';
 
 class UserValiadtor {
   static validateNewUserBody(body: User) {
