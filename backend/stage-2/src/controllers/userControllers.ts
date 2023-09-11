@@ -6,8 +6,7 @@ import UserValiadtor from '../utils/validators/userValidator';
 
 type UserType = {
   email: string | undefined
-  firstName: string | undefined,
-  lastName: string | undefined,
+  name: string | undefined,
   age: number | undefined,
   occupation: string | undefined
 };
@@ -19,16 +18,14 @@ class UserController {
 
       const {
         email,
-        firstName,
-        lastName,
+        name,
         age,
         occupation
       } = req.body;
 
       const user = await User.create({
         email,
-        firstName,
-        lastName,
+        name,
         age,
         occupation
       });
@@ -44,6 +41,11 @@ class UserController {
       }
       if (error instanceof Error) {
         if (error.name === 'SequelizeUniqueConstraintError') {
+          // @ts-expect-error: Unreachable code error
+          if (error.errors[0].path === 'name') {
+            res.status(400).json({ error: 'Name already exists' });
+            return;
+          }
           res.status(400).json({ error: 'Email already exists' });
           return;
         }
@@ -65,6 +67,21 @@ class UserController {
         res.status(200).json({ Person: user });
       } else {
         res.status(404).json({ error: 'No user found with specified ID' });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getUserByName(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { name } = req.query;
+
+      const user = await User.findOne({ where: { name }});
+      if (user !== null) {
+        res.status(200).json({ Person: user });
+      } else {
+        res.status(404).json({ error: 'No user found with specified name' });
       }
     } catch (error) {
       next(error);
@@ -97,27 +114,22 @@ class UserController {
       UserValiadtor.validateUpdateUserBody(req.body);
       const {
         email,
-        firstName,
-        lastName,
+        name,
         age,
         occupation
       } = req.body;
 
       const updates: UserType = {
         email: undefined,
-        firstName: undefined,
-        lastName: undefined,
+        name: undefined,
         age: undefined,
         occupation: undefined
       };
       if (email !== undefined) {
         updates.email = email;
       }
-      if (firstName !== undefined) {
-        updates.firstName = firstName;
-      }
-      if (lastName !== undefined) {
-        updates.lastName = lastName;
+      if (name !== undefined) {
+        updates.name = name;
       }
       if (age !== undefined) {
         updates.age = Number(age);
@@ -144,6 +156,11 @@ class UserController {
       }
       if (error instanceof Error) {
         if (error.name === 'SequelizeUniqueConstraintError') {
+          // @ts-expect-error: Unreachable code error
+          if (error.errors[0].path === 'name') {
+            res.status(400).json({ error: 'Name already exists' });
+            return;
+          }
           res.status(400).json({ error: 'Email already exists' });
           return;
         }
@@ -168,7 +185,7 @@ class UserController {
 
       await User.destroy({ where: { id: user_id }});
       res.status(200).json({
-        message: `${`${user.firstName} ${user.lastName}`} successfully deleted`,
+        message: `${user.name} successfully deleted`,
       });
     } catch (error) {
       next(error);

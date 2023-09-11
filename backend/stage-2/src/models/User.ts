@@ -3,11 +3,10 @@ import { sq } from '../config/db';
 
 class User extends Model {
   declare id: string;
-  declare email: string;
-  declare age: number;
-  declare firstName: string;
-  declare lastName: string;
-  declare occupation: string;
+  declare email: string | null;
+  declare age: number | null;
+  declare name: string;
+  declare occupation: string | null;
 }
 
 User.init({
@@ -19,20 +18,17 @@ User.init({
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: true,
   },
-  firstName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  lastName: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    unique: true
   },
   age: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true
   },
   occupation: {
     type: DataTypes.STRING,
@@ -40,7 +36,7 @@ User.init({
   }
 }, { sequelize: sq });
 
-User.sync()
+User.sync({ alter: true })
   .catch((error) => {
     console.log(error);
     throw error;

@@ -11,8 +11,7 @@ chai.use(chaiHttp);
 const testMail = 'test@hng.com';
 const requestBody = {
   email: testMail,
-  firstName: 'Victor',
-  lastName: 'Ilodiuba',
+  name: 'test',
   age: '22',
   occupation: 'Backend Engineer'
 };
@@ -41,8 +40,7 @@ describe('Server Tests', () => {
       expect(res.body.message).to.equal('New Person successfully added to DB');
       expect(res.body.Person).to.exist;
       expect(res.body.Person.email).to.equal(requestBody.email);
-      expect(res.body.Person.firstName).to.equal(requestBody.firstName);
-      expect(res.body.Person.lastName).to.equal(requestBody.lastName);
+      expect(res.body.Person.name).to.equal(requestBody.name);
       expect(res.body.Person.age).to.equal(Number(requestBody.age));
       expect(res.body.Person.occupation).to.equal(requestBody.occupation);
     });
@@ -58,8 +56,7 @@ describe('Server Tests', () => {
       expect(res.body.message).to.equal('New Person successfully added to DB');
       expect(res.body.Person).to.exist;
       expect(res.body.Person.email).to.equal(requestBody.email);
-      expect(res.body.Person.firstName).to.equal(requestBody.firstName);
-      expect(res.body.Person.lastName).to.equal(requestBody.lastName);
+      expect(res.body.Person.name).to.equal(requestBody.name);
       expect(res.body.Person.age).to.equal(Number(requestBody.age));
       expect(res.body.Person.occupation).to.equal(requestBody.occupation);
 
@@ -79,8 +76,7 @@ describe('Server Tests', () => {
         .post('/api')
         .send({
           email: true,
-          firstName: requestBody.firstName,
-          lastName: requestBody.lastName,
+          name: requestBody.name,
           age: requestBody.age,
           occupation: requestBody.occupation
         });
@@ -90,30 +86,13 @@ describe('Server Tests', () => {
       expect(res.body.error).to.equal('Email should be a string');
     });
 
-    it('should say please enter an email', async () => {
-      const res = await chai
-        .request(app)
-        .post('/api')
-        .send({
-          firstName: requestBody.firstName,
-          lastName: requestBody.lastName,
-          age: requestBody.age,
-          occupation: requestBody.occupation
-        });
-
-      expect(res).to.have.status(400);
-      expect(res.body).to.be.an('object');
-      expect(res.body.error).to.equal('Please enter an email');
-    });
-
     it('should say please enter a valid email', async () => {
       const res = await chai
         .request(app)
         .post('/api')
         .send({
           email: 'invalidemail@',
-          firstName: requestBody.firstName,
-          lastName: requestBody.lastName,
+          name: requestBody.name,
           age: requestBody.age,
           occupation: requestBody.occupation
         });
@@ -123,88 +102,36 @@ describe('Server Tests', () => {
       expect(res.body.error).to.equal('Please enter a valid email');
     });
 
-    it('should say please enter first name', async () => {
+    it('should say please enter a name', async () => {
       const res = await chai
         .request(app)
         .post('/api')
         .send({
           email: requestBody.email,
-          lastName: requestBody.lastName,
+          // name: requestBody.name,
           age: requestBody.age,
           occupation: requestBody.occupation
         });
 
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
-      expect(res.body.error).to.equal('Please enter a first name');
+      expect(res.body.error).to.equal('Please enter a name');
     });
 
-    it('should say first name should be a string', async () => {
+    it('should say name should be a string', async () => {
       const res = await chai
         .request(app)
         .post('/api')
         .send({
           email: requestBody.email,
-          firstName: 2345,
-          lastName: requestBody.lastName,
+          name: 2345,
           age: requestBody.age,
           occupation: requestBody.occupation
         });
 
       expect(res).to.have.status(400);
       expect(res.body).to.be.an('object');
-      expect(res.body.error).to.equal('First name should be a string');
-    });
-
-    it('should say please enter last name', async () => {
-      const res = await chai
-        .request(app)
-        .post('/api')
-        .send({
-          email: requestBody.email,
-          firstName: requestBody.firstName,
-          // lastName: requestBody.lastName,
-          age: requestBody.age,
-          occupation: requestBody.occupation
-        });
-
-      expect(res).to.have.status(400);
-      expect(res.body).to.be.an('object');
-      expect(res.body.error).to.equal('Please enter a last name');
-    });
-
-    it('should say last name should be a string', async () => {
-      const res = await chai
-        .request(app)
-        .post('/api')
-        .send({
-          email: requestBody.email,
-          firstName: requestBody.firstName,
-          lastName: 2345,
-          age: requestBody.age,
-          occupation: requestBody.occupation
-        });
-
-      expect(res).to.have.status(400);
-      expect(res.body).to.be.an('object');
-      expect(res.body.error).to.equal('Last name should be a string');
-    });
-
-    it('should say please enter age', async () => {
-      const res = await chai
-        .request(app)
-        .post('/api')
-        .send({
-          email: requestBody.email,
-          firstName: requestBody.firstName,
-          lastName: requestBody.lastName,
-          // age: requestBody.age,
-          occupation: requestBody.occupation
-        });
-
-      expect(res).to.have.status(400);
-      expect(res.body).to.be.an('object');
-      expect(res.body.error).to.equal('Please enter your age');
+      expect(res.body.error).to.equal('Name should be a string');
     });
 
     it('should say Age should be a string', async () => {
@@ -213,8 +140,7 @@ describe('Server Tests', () => {
         .post('/api')
         .send({
           email: requestBody.email,
-          firstName: requestBody.firstName,
-          lastName: requestBody.lastName,
+          name: requestBody.name,
           age: 27,
           occupation: requestBody.occupation
         });
@@ -230,8 +156,7 @@ describe('Server Tests', () => {
         .post('/api')
         .send({
           email: requestBody.email,
-          firstName: requestBody.firstName,
-          lastName: requestBody.lastName,
+          name: requestBody.name,
           age: '-27',
           occupation: requestBody.occupation
         });
@@ -247,8 +172,7 @@ describe('Server Tests', () => {
         .post('/api')
         .send({
           email: requestBody.email,
-          firstName: requestBody.firstName,
-          lastName: requestBody.lastName,
+          name: requestBody.name,
           age: '0',
           occupation: requestBody.occupation
         });
@@ -264,8 +188,7 @@ describe('Server Tests', () => {
         .post('/api')
         .send({
           email: requestBody.email,
-          firstName: requestBody.firstName,
-          lastName: requestBody.lastName,
+          name: requestBody.name,
           age: 'duba',
           occupation: requestBody.occupation
         });
@@ -281,8 +204,7 @@ describe('Server Tests', () => {
         .post('/api')
         .send({
           email: requestBody.email,
-          firstName: requestBody.firstName,
-          lastName: requestBody.lastName,
+          name: requestBody.name,
           age: '28',
           occupation: false
         });
@@ -293,12 +215,12 @@ describe('Server Tests', () => {
     });
   });
 
-  describe('GET /api/persons', () => {
+  describe('GET /api/all/persons', () => {
     it('should get all Persons', async () => {
 
       const res = await chai
         .request(app)
-        .get('/api/persons');
+        .get('/api/all/persons');
 
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('object');
@@ -307,12 +229,7 @@ describe('Server Tests', () => {
       const Persons = res.body.Persons as User[];
       Persons.forEach((person) => {
         expect(person.id).to.exist;
-        expect(person.email).to.exist;
-        expect(person.firstName).to.exist;
-        expect(person.lastName).to.exist;
-        expect(person.age).to.exist;
-        expect(person.age).to.be.a('number');
-        expect(person.occupation).to.exist;
+        expect(person.name).to.exist;
       });
     });
   });
@@ -331,12 +248,7 @@ describe('Server Tests', () => {
       expect(res.body.Person).to.be.an('object');
       const person = res.body.Person as User;
       expect(person.id).to.exist;
-      expect(person.email).to.exist;
-      expect(person.firstName).to.exist;
-      expect(person.lastName).to.exist;
-      expect(person.age).to.exist;
-      expect(person.age).to.be.a('number');
-      expect(person.occupation).to.exist;
+      expect(person.name).to.exist;
     });
 
     it('should say invalid ID', async () => {
@@ -378,6 +290,36 @@ describe('Server Tests', () => {
     });
   });
 
+  describe('GET /api', () => {
+    it('should get a Person by name', async () => {
+      const user = await User.create(requestBody);
+
+      const res = await chai
+        .request(app)
+        .get(`/api?name=${user.name}`);
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.Person).to.exist;
+      expect(res.body.Person).to.be.an('object');
+      const person = res.body.Person as User;
+      expect(person.id).to.exist;
+      expect(person.name).to.exist;
+    });
+
+    it('should say user not found', async () => {
+      const res = await chai
+        .request(app)
+        .get(`/api?name=${v4()}`);
+
+      expect(res).to.have.status(404);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal(
+        'No user found with specified name'
+      );
+    });
+  });
+
   describe('PATCH /api/:user_id', () => {
     it('should update a Person', async () => {
       const user = await User.create(requestBody);
@@ -392,8 +334,7 @@ describe('Server Tests', () => {
       expect(res.body.message).to.equal('Person successfully updated');
       expect(res.body.updates.occupation).to.equal('Frontend Engineer');
       expect(res.body.updates.email).to.equal(undefined);
-      expect(res.body.updates.firstName).to.equal(undefined);
-      expect(res.body.updates.lastName).to.equal(undefined);
+      expect(res.body.updates.name).to.equal(undefined);
       expect(res.body.updates.age).to.equal(undefined);
     });
 
@@ -401,8 +342,7 @@ describe('Server Tests', () => {
       const user = await User.create(requestBody);
       const user2 = await User.create({
         email: 'test2@gmail.com',
-        firstName: requestBody.firstName,
-        lastName: requestBody.lastName,
+        name: 'test2',
         age: '22'
       });
 
@@ -482,32 +422,6 @@ describe('Server Tests', () => {
       expect(res.body.error).to.equal('Please enter a valid email');
     });
 
-    it('should say first name should be a string', async () => {
-      const user = await User.create(requestBody);
-
-      const res = await chai
-        .request(app)
-        .patch(`/api/${user.id}`)
-        .send({ firstName: true });
-
-      expect(res).to.have.status(400);
-      expect(res.body).to.be.an('object');
-      expect(res.body.error).to.equal('First name should be a string');
-    });
-
-    it('should say last name should be a string', async () => {
-      const user = await User.create(requestBody);
-
-      const res = await chai
-        .request(app)
-        .patch(`/api/${user.id}`)
-        .send({ lastName: true });
-
-      expect(res).to.have.status(400);
-      expect(res.body).to.be.an('object');
-      expect(res.body.error).to.equal('Last name should be a string');
-    });
-
     it('should say age should be a string', async () => {
       const user = await User.create(requestBody);
 
@@ -584,7 +498,7 @@ describe('Server Tests', () => {
 
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('object');
-      expect(res.body.message).to.equal('Victor Ilodiuba successfully deleted');
+      expect(res.body.message).to.equal('test successfully deleted');
     });
 
     it('should say invalid ID', async () => {
