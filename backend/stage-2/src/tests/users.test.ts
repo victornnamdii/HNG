@@ -6,6 +6,16 @@ import { Op } from 'sequelize';
 import app from '../server';
 import User from '../models/User';
 
+const days = {
+  0: 'Sunday',
+  1: 'Monday',
+  2: 'Tuesday',
+  3: 'Wednesday',
+  4: 'Thursday',
+  5: 'Friday',
+  6: 'Saturday',
+};
+
 chai.use(chaiHttp);
 
 const testMail = 'test@hng.com';
@@ -318,6 +328,48 @@ describe('Server Tests', () => {
         'No user found with specified name'
       );
     });
+
+    it('should return home page', async () => {
+      const current_day = days[new Date().getDay() as keyof typeof days];
+
+      const res = await chai.request(app).get('/api');
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.slack_name).to.equal('victornnamdii');
+      expect(res.body.track).to.equal('backend');
+      expect(res.body.github_file_url).to.equal(
+        'https://github.com/victornnamdii/HNG/blob/main/backend/stage-2/src/server.ts'
+      );
+      expect(res.body.github_repo_url).to.equal(
+        'https://github.com/victornnamdii/HNG/tree/main/backend/stage-2'
+      );
+      expect(res.body.status_code).to.equal(200);
+      expect(res.body.current_day).to.equal(current_day);
+      expect(res.body.utc_time).to.be.a('string');
+    });
+
+    it('should return home page, alt', async () => {
+      const slack_name = 'hng';
+      const track = 'backend';
+      const current_day = days[new Date().getDay() as keyof typeof days];
+
+      const res = await chai.request(app).get(`/api?slack_name=${slack_name}&track=${track}`);
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.slack_name).to.equal(slack_name);
+      expect(res.body.track).to.equal(track);
+      expect(res.body.github_file_url).to.equal(
+        'https://github.com/victornnamdii/HNG/blob/main/backend/stage-2/src/server.ts'
+      );
+      expect(res.body.github_repo_url).to.equal(
+        'https://github.com/victornnamdii/HNG/tree/main/backend/stage-2'
+      );
+      expect(res.body.status_code).to.equal(200);
+      expect(res.body.current_day).to.equal(current_day);
+      expect(res.body.utc_time).to.be.a('string');
+    });
   });
 
   describe('PATCH /api/:user_id', () => {
@@ -336,6 +388,9 @@ describe('Server Tests', () => {
       expect(res.body.updates.email).to.equal(undefined);
       expect(res.body.updates.name).to.equal(undefined);
       expect(res.body.updates.age).to.equal(undefined);
+
+      const updatedUser = await User.findByPk(user.id);
+      expect(updatedUser?.occupation).to.equal('Frontend Engineer');
     });
 
     it('should say email already exists', async () => {
@@ -488,6 +543,150 @@ describe('Server Tests', () => {
     });
   });
 
+  describe('PATCH /api?name=example_name', () => {
+    it('should update a Person', async () => {
+      const user = await User.create(requestBody);
+
+      const res = await chai
+        .request(app)
+        .patch(`/api/?name=${user.name}`)
+        .send({ occupation: 'Frontend Engineer' });
+
+      expect(res).to.have.status(201);
+      expect(res.body).to.be.an('object');
+      expect(res.body.message).to.equal('Person successfully updated');
+      expect(res.body.updates.occupation).to.equal('Frontend Engineer');
+      expect(res.body.updates.email).to.equal(undefined);
+      expect(res.body.updates.name).to.equal(undefined);
+      expect(res.body.updates.age).to.equal(undefined);
+
+      const updatedUser = await User.findByPk(user.id);
+      expect(updatedUser?.occupation).to.equal('Frontend Engineer');
+    });
+
+    it('should say email already exists', async () => {
+      const user = await User.create(requestBody);
+      const user2 = await User.create({
+        email: 'test2@gmail.com',
+        name: 'test2',
+        age: '22'
+      });
+
+      const res = await chai
+        .request(app)
+        .patch(`/api/?name=${user2.name}`)
+        .send({ email: user.email });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal('Email already exists');
+    });
+
+    it('should say user not found', async () => {
+      const res = await chai
+        .request(app)
+        .patch('/api?name=yrrfkjhsbhj')
+        .send({ occupation: 'Frontend Engineer' });
+
+      expect(res).to.have.status(404);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal(
+        'No user found with specified name'
+      );
+    });
+
+    it('should say email should be a string', async () => {
+      const user = await User.create(requestBody);
+
+      const res = await chai
+        .request(app)
+        .patch(`/api/?name=${user.name}`)
+        .send({ email: true });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal('Email should be a string');
+    });
+
+    it('should say enter a valid email', async () => {
+      const user = await User.create(requestBody);
+
+      const res = await chai
+        .request(app)
+        .patch(`/api/?name=${user.name}`)
+        .send({ email: 'invalidemail' });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal('Please enter a valid email');
+    });
+
+    it('should say age should be a string', async () => {
+      const user = await User.create(requestBody);
+
+      const res = await chai
+        .request(app)
+        .patch(`/api/?name=${user.name}`)
+        .send({ age: 27 });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal('Age should be a string');
+    });
+
+    it('should say enter a valid age', async () => {
+      const user = await User.create(requestBody);
+
+      const res = await chai
+        .request(app)
+        .patch(`/api/?name=${user.name}`)
+        .send({ age: '-27' });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal('Please enter a valid age');
+    });
+
+    it('should say enter a valid age, alt', async () => {
+      const user = await User.create(requestBody);
+
+      const res = await chai
+        .request(app)
+        .patch(`/api/?name=${user.name}`)
+        .send({ age: '0' });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal('Please enter a valid age');
+    });
+
+    it('should say enter a valid age, alt 2', async () => {
+      const user = await User.create(requestBody);
+
+      const res = await chai
+        .request(app)
+        .patch(`/api/?name=${user.name}`)
+        .send({ age: 'duba' });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal('Please enter a valid age');
+    });
+
+    it('should say occupation should be a string', async () => {
+      const user = await User.create(requestBody);
+
+      const res = await chai
+        .request(app)
+        .patch(`/api/?name=${user.name}`)
+        .send({ occupation: 29 });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal('Occupation should be a string');
+    });
+  });
+
   describe('DELETE /api/:user_id', () => {
     it('should delete a Person', async () => {
       const user = await User.create(requestBody);
@@ -499,6 +698,9 @@ describe('Server Tests', () => {
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('object');
       expect(res.body.message).to.equal('test successfully deleted');
+
+      const deletedUser = await User.findByPk(user.id);
+      expect(deletedUser).to.equal(null);
     });
 
     it('should say invalid ID', async () => {
@@ -536,6 +738,35 @@ describe('Server Tests', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.error).to.equal(
         'No user found with specified ID'
+      );
+    });
+  });
+
+  describe('DELETE /api?name=example_name', () => {
+    it('should delete a Person', async () => {
+      const user = await User.create(requestBody);
+
+      const res = await chai
+        .request(app)
+        .delete(`/api/?name=${user.name}`);
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body.message).to.equal('test successfully deleted');
+
+      const deletedUser = await User.findByPk(user.id);
+      expect(deletedUser).to.equal(null);
+    });
+
+    it('should say user not found', async () => {
+      const res = await chai
+        .request(app)
+        .delete('/api?name=jjsjjsjdjjf');
+
+      expect(res).to.have.status(404);
+      expect(res.body).to.be.an('object');
+      expect(res.body.error).to.equal(
+        'No user found with specified name'
       );
     });
   });
