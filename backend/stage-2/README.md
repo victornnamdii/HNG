@@ -23,6 +23,10 @@ This task is hosted on: https://hng-task-2-fh1j.onrender.com
 
 Unittests are contained in the `src/tests` directory. To test the server run the command `npm test` in terminal.
 
+## UML Diagram
+
+![alt text](https://github.com/victornnamdii/django-ecommerce-app/blob/main/backend/stage-2/images/image.png?raw=true)
+
 - - - -
 
 ## API Documentation
