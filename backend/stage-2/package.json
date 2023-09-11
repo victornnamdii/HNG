@@ -6,7 +6,6 @@
   "scripts": {
     "prebuild": "eslint --fix . --ext .ts",
     "build": "tsc",
-    "prestart": "npm run build",
     "start": "node .",
     "predev": "npm run build",
     "dev": "concurrently \"tsc --watch\" \"nodemon -q .\"",
