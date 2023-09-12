@@ -15,7 +15,7 @@ This task is hosted on: https://hng-task-2-fh1j.onrender.com
 * Clone this repository `git clone https://github.com/victornnamdii/HNG.git` in terminal.
 * Access the directory: `cd HNG/backend/stage-2` in terminal.
 * Run `npm install` in terminal.
-* Duplicate the `env.example` and fill in correct fields.
+* Duplicate the `env.example` file to a `.env` file and fill in correct fields.
 * Run `npm run start` in terminal.
 * Access the server from the specified port.
 
